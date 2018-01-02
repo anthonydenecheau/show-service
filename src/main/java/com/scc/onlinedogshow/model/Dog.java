@@ -16,6 +16,9 @@ public class Dog{
 	@Column(name = "nom")
 	private String nom;
 
+	@Column(name = "affixe")
+	private String affixe;
+
 	@Column(name = "sexe")
 	private String sexe;
 	
@@ -58,17 +61,20 @@ public class Dog{
 	@Column(name = "couleur")
 	private String couleur;
 
-	@Column(name = "etalon")
-	private String etalon;
+	@Column(name = "id_etalon")
+	private int idEtalon;
 
-	@Column(name = "lice")
-	private String lice;
+	@Column(name = "id_lice")
+	private int idLice;
 
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
 
 	public String getNom() { return nom; }
 	public void setNom(String nom) { this.nom = nom; }
+
+	public String getAffixe() { return affixe; }
+	public void setAffixe(String affixe) { this.affixe = affixe; }
 
 	public String getSexe() { return sexe; }
 	public void setSexe(String sexe) { this.sexe = sexe; }
@@ -112,14 +118,16 @@ public class Dog{
 	public String getCouleur() { return couleur; }
 	public void setCouleur(String couleur) { this.couleur = couleur; }
 
-	public String getEtalon() { return etalon;}
-	public void setEtalon(String etalon) { this.etalon = etalon; }
+	public int getIdEtalon() { return idEtalon;}
+	public void setIdEtalon(int idEtalon) { this.idEtalon = idEtalon; }
 	
-	public String getLice() { return lice; }
-	public void setLice(String lice) { this.lice = lice; }
+	public int getIdLice() { return idLice; }
+	public void setIdLice(int idLice) { this.idLice = idLice; }
 
+	/*
 	public Dog withId(int id){ this.setId( id ); return this; }
 	public Dog withNom(String nom){ this.setNom(nom); return this; }
+	public Dog withAffixe(String affixe){ this.setAffixe(affixe); return this; }
 	public Dog withSexe(String sexe){ this.setSexe(sexe); return this; }
 	public Dog withDateNaissance(String dateNaissance){ this.setDateNaissance(dateNaissance); return this; }
 	public Dog withPays(String pays){ this.setPays(pays); return this; }
@@ -131,7 +139,7 @@ public class Dog{
 	public Dog withRace(String race){ this.setRace(race); return this; }
 	public Dog withVariete(String variete){ this.setVariete(variete); return this; }
 	public Dog withCouleur(String couleur){ this.setCouleur(couleur); return this; }
-	public Dog withEtalon(String etalon){ this.setEtalon(etalon); return this; }
-	public Dog withLice(String lice){ this.setLice(lice); return this; }
-
+	public Dog withIdEtalon(int idEtalon){ this.setIdEtalon(idEtalon); return this; }
+	public Dog withIdLice(int idLice){ this.setIdLice(idLice); return this; }
+	*/
 }

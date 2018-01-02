@@ -22,6 +22,22 @@ public class Breeder {
 	@Column(name = "prenom")
 	private String firstName;
 
+	@Column(name = "typ_profil")
+	@JsonIgnore
+	private String typeProfil;
+
+	@Column(name = "professionnel_actif")
+	@JsonIgnore
+	private String professionnelActif;
+
+	@Column(name = "raison_sociale")
+	@JsonIgnore
+	private String raisonSociale;
+
+	@Column(name = "on_suffixe")
+	@JsonIgnore
+	private String onSuffixe;
+
 	@Column(name = "id_chien")
 	@JsonIgnore
 	private int idDog;
@@ -37,5 +53,17 @@ public class Breeder {
 
 	public int getIdDog() { return idDog; }
 	public void setIdDog(int idDog) { this.idDog = idDog; }
+	
+	public String getTypeProfil() { return typeProfil; }
+	public void setTypeProfil(String typeProfil) { this.typeProfil = typeProfil;}
+	
+	public String getProfessionnelActif() { return professionnelActif; }
+	public void setProfessionnelActif(String professionnelActif) { this.professionnelActif = professionnelActif; }
+	
+	public String getRaisonSociale() { return raisonSociale; }
+	public void setRaisonSociale(String raisonSociale) { this.raisonSociale = raisonSociale; }
+
+	public String getOnSuffixe() { return onSuffixe; }
+	public void setOnSuffixe(String onSuffixe) { this.onSuffixe = onSuffixe; }
 
 }

@@ -107,7 +107,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <start-class>com.scc.onlinedogshow.Application</start-class>
     <docker.image.name>anthonydenecheau/scc-onlinedogshow-service</docker.image.name>
-    <docker.image.tag>version1.0</docker.image.tag>
+    <docker.image.tag>version1.1</docker.image.tag>
   </properties>
 
   <build>

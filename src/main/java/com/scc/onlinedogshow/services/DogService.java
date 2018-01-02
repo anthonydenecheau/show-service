@@ -11,12 +11,11 @@ import com.scc.onlinedogshow.config.ServiceConfig;
 import com.scc.onlinedogshow.model.Dog;
 import com.scc.onlinedogshow.model.Title;
 import com.scc.onlinedogshow.repository.DogRepository;
-import com.scc.onlinedogshow.repository.TitleRepository;
 import com.scc.onlinedogshow.template.Breed;
 import com.scc.onlinedogshow.model.Breeder;
 import com.scc.onlinedogshow.model.Owner;
 import com.scc.onlinedogshow.template.Pedigree;
-import com.scc.onlinedogshow.template.Parent;
+import com.scc.onlinedogshow.model.Parent;
 import com.scc.onlinedogshow.template.ResponseObject;
 import com.scc.onlinedogshow.template.ResponseObjectList;
 
@@ -47,6 +46,9 @@ public class DogService {
 
     @Autowired
     private DogRepository dogRepository;
+
+    @Autowired
+    private ParentService parentService;
 
     @Autowired
     ServiceConfig config;
@@ -95,21 +97,27 @@ public class DogService {
 	    	List<ResponseObject> results = new ArrayList<ResponseObject>();
 	    	ResponseObject result = new ResponseObject();
 	    	for (Dog _dog : list) {
+	    		
+	    		
+	    		// Construction de la réponse
 	    		result.withId(_dog.getId() )
-	    			.withName( _dog.getNom() )
 	    			.withGender( _dog.getSexe() )
 	    			.withBirthDate( _dog.getDateNaissance() )
 	    			.withBirthCountry( _dog.getPays() )
-	    			.withPedigrees( searchPedigrees ( _dog.getNumlof(), _dog.getDateConfirmation() ))
-	    			.withTokens( searchTokens ( token))
+	    			.withPedigrees( searchPedigrees ( _dog.getNumlof(), _dog.getNumconfirmation(), _dog.getDateConfirmation() ))
+	    			.withTokens( searchTokens ( _dog.getTatouage(), _dog.getTranspondeur()))
 	    			.withBreed( searchBreed(_dog))
-	    			.withFather( searchParent( _dog.getEtalon()) )
-	    			.withMother( searchParent( _dog.getLice()) )
+	    			.withFather( searchParent( _dog.getIdEtalon()) )
+	    			.withMother( searchParent( _dog.getIdLice()) )
 	    			.withBreeder( searchBreeder ( _dog.getId() ))
 	    			.withOwners( searchOwners ( _dog.getId() ))
 	    			.withTitles( searchTitles ( _dog.getId() ))
 	    		;
 	    		
+	    		// Lecture de l'éleveur pour afficher le nom complet du chien
+    			String _name = buildName (_dog.getNom(), _dog.getAffixe(), result.getBreeder().getOnSuffixe());
+	    		result.withName( _name );
+
 	    		results.add(result);
 	    	}
 	    	return new ResponseObjectList<ResponseObject>(results.size(),results);
@@ -153,21 +161,55 @@ public class DogService {
     	}
     	return _breed;
     }
-    
-    private Parent searchParent (String _name) {
-    	
-    	Parent _parent = new Parent();
+
+    private String buildName (String _name, String _affixe, String _onSuffixe) {
+    	String result = "";
     	
     	try {
     		
-    		if (_name != null)
-    			_parent.setName(_name);
+    		if (_affixe != null && !"".equals(_affixe)) {
+    			if (_onSuffixe.equals("O")) {
+    				result = _name + " " + _affixe;
+    			} else {
+    				result = _affixe + " " + _name;    				
+    			}
+    		} else {
+    			result = _name;
+    		}
     		
     	} catch (Exception e) {
     		
     	}
     	
-    	return _parent;
+    	return result;
+    }
+    
+    private HashMap<String, Object> searchParent (int _id) {
+    	
+    	HashMap<String, Object> _info = new HashMap<String, Object>();
+    	Parent _parent = new Parent();
+    	
+    	try {
+    		
+    		_parent = parentService.getParentById(_id);
+    		_info.put("name",buildName(_parent.getName(), _parent.getAffixe(), _parent.getOnSuffixe()));
+    		/*
+    		if (_parent.getAffixe() != null && !"".equals(_parent.getAffixe())) {
+    			if (_parent.getOnSuffixe().equals("O")) {
+    				_info.put("name", _parent.getName() + " " + _parent.getAffixe());
+    			} else {
+    				_info.put("name", _parent.getAffixe() + " " + _parent.getName());    				
+    			}
+    		} else {
+    			_info.put("name", _parent.getName());
+    		}
+    		*/
+    		
+    	} catch (Exception e) {
+    		
+    	}
+    	
+    	return _info;
     }
     
     private Breeder searchBreeder(int _id) {
@@ -176,6 +218,17 @@ public class DogService {
     	
     	try {
     		_breeder = breederService.getBreederByIdDog( _id );
+    		/*
+    		 * Gestion de la règle particulier / eleveur (professionnel)
+    		 * La raison sociale remplace le nom de l'éleveur; le prénom est réinitialisé. 
+    		 */
+    		if (_breeder.getTypeProfil().equals("E") 
+    			&& _breeder.getProfessionnelActif().equals("O")
+    			&& (_breeder.getRaisonSociale()!=null && !"".equals(_breeder.getRaisonSociale()) )) {
+    			_breeder.setLastName(_breeder.getRaisonSociale());
+    			_breeder.setFirstName("");
+    		} 
+    		
     	} catch (Exception e) {
     		
     	}
@@ -208,7 +261,7 @@ public class DogService {
     	
     }
     
-    private List<Pedigree> searchPedigrees(String _numLof, String _obtentionDate) {
+    private List<Pedigree> searchPedigrees(String _numLof, String _numconfirmation, String _obtentionDate) {
     	
     	List<Pedigree> _pedigrees = new ArrayList<Pedigree>();
     	
@@ -216,7 +269,7 @@ public class DogService {
     		Pedigree _pedigree = new Pedigree();
     		_pedigree.setCountry("FR");
     		_pedigree.setType("LOF");
-    		_pedigree.setNumber(_numLof);
+    		_pedigree.setNumber(_numLof + ((_numconfirmation==null || "".equals(_numconfirmation)) ? "" : "/" + _numconfirmation));
     		_pedigree.setObtentionDate(_obtentionDate);
     		_pedigrees.add(_pedigree);
     	} catch (Exception e) {
@@ -226,12 +279,24 @@ public class DogService {
     	
     }
     
-    private Map<String, Object> searchTokens (String _token) {
+    private List<Map<String, Object>> searchTokens (String _tattoo, String _chip) {
 
-    	Map<String, Object> tokens = new HashMap<String, Object>();
-    	logger.debug("searchTokens: {},{}",_token);
+    	List<Map<String, Object>> tokens = new ArrayList<Map<String, Object>>();
+    	Map<String, Object> token = new HashMap<String, Object>();
+    	logger.debug("searchTokens: tattoo {}, chip {}",_tattoo,_chip);
     	try {
-    		tokens.put("number", _token);
+    		token.clear();
+    		if (_tattoo != null && !"".equals(_tattoo) ) {
+    			token.put("type", "tattoo");
+    			token.put("number", _tattoo);
+    			tokens.add(new HashMap(token));
+    		}
+    		token.clear();
+    		if (_chip != null && !"".equals(_chip) ) {
+    			token.put("type", "chip");
+    			token.put("number", _chip);
+    			tokens.add(new HashMap(token));
+    		}
 
     	} catch (Exception e) {
     		

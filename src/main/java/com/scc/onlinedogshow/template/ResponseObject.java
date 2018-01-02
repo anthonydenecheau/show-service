@@ -1,9 +1,7 @@
 package com.scc.onlinedogshow.template;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.scc.onlinedogshow.model.Breeder;
 import com.scc.onlinedogshow.model.Owner;
@@ -17,10 +15,10 @@ public class ResponseObject {
 	private String birthDate;
 	private String birthCountry;
 	private List<Pedigree> pedigrees;
-	private List<Entry> tokens;
+	private List<Map<String, Object>> tokens;
 	private Breed breed;	
-	private Parent father;
-	private Parent mother;
+	private Map<String, Object> father;
+	private Map<String, Object> mother;
 	private Breeder breeder;
 	private List<Owner> owners;
 	private List<Title> titles;
@@ -43,17 +41,17 @@ public class ResponseObject {
 	public List<Pedigree> getPedigrees() { return pedigrees; }
 	public void setPedigrees(List<Pedigree> pedigrees) { this.pedigrees = pedigrees; }
 	
-	public List<Entry> getTokens() { return tokens; }
-	public void setTokens(List<Entry> tokens) { this.tokens = tokens; }
+	public List<Map<String, Object>> getTokens() { return tokens; }
+	public void setTokens(List<Map<String, Object>> tokens) { this.tokens = tokens; }
 	
 	public Breed getBreed() { return breed; }
 	public void setBreed(Breed breed) { this.breed = breed; }
 	
-	public Parent getFather() { return father; }
-	public void setFather(Parent father) { this.father = father; }
+	public Map<String, Object> getFather() { return father; }
+	public void setFather(Map<String, Object> father) { this.father = father; }
 	
-	public Parent getMother() { return mother; }
-	public void setMother(Parent mother) { this.mother = mother; }
+	public Map<String, Object> getMother() { return mother; }
+	public void setMother(Map<String, Object> mother) { this.mother = mother; }
 	
 	public Breeder getBreeder() { return breeder; }
 	public void setBreeder(Breeder breeder) { this.breeder = breeder; }
@@ -69,11 +67,11 @@ public class ResponseObject {
 	public ResponseObject withGender(String gender){ this.setGender( gender ); return this; }
 	public ResponseObject withBirthDate(String birthDate){ this.setBirthDate( birthDate ); return this; }
 	public ResponseObject withBirthCountry(String birthCountry){ this.setBirthCountry( birthCountry ); return this; }
-	public ResponseObject withTokens(Map<String, Object> tokens){ this.setTokens( new ArrayList<Entry>(tokens.entrySet()) ); return this; }
+	public ResponseObject withTokens(List<Map<String, Object>> tokens){ this.setTokens(tokens); return this; }
 	public ResponseObject withPedigrees(List<Pedigree> pedigrees){ this.setPedigrees( pedigrees); return this; }
 	public ResponseObject withBreed(Breed breed){ this.setBreed( breed ); return this; }
-	public ResponseObject withFather(Parent father){ this.setFather( father ); return this; }
-	public ResponseObject withMother(Parent mother){ this.setMother( mother ); return this; }
+	public ResponseObject withFather(Map<String, Object> father){ this.setFather( father ); return this; }
+	public ResponseObject withMother(Map<String, Object> mother){ this.setMother( mother ); return this; }
 	public ResponseObject withBreeder(Breeder breeder){ this.setBreeder( breeder ); return this; }
 	public ResponseObject withOwners(List<Owner> owner){ this.setOwners( owner ); return this; }
 	public ResponseObject withTitles(List<Title> titles){ this.setTitles( titles ); return this; }
