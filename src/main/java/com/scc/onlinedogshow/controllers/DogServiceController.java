@@ -32,18 +32,18 @@ public class DogServiceController {
     }    
 
     @RequestMapping(value="{dogId}",method = RequestMethod.PUT)
-    public String updateDog( @PathVariable("dogId") String licenseId) {
+    public String updateDog( @PathVariable("dogId") int dogId) {
         return String.format("This is the put");
     }
 
     @RequestMapping(value="{dogId}",method = RequestMethod.POST)
-    public String saveDog( @PathVariable("dogId") String licenseId) {
+    public String saveDog( @PathVariable("dogId") int dogId) {
         return String.format("This is the post");
     }
 
     @RequestMapping(value="{dogId}",method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deleteDog( @PathVariable("dogId") String licenseId) {
+    public String deleteDog( @PathVariable("dogId") int dogId) {
         return String.format("This is the Delete");
     }
 }

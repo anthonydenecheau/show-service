@@ -98,7 +98,6 @@ public class DogService {
 	    	ResponseObject result = new ResponseObject();
 	    	for (Dog _dog : list) {
 	    		
-	    		
 	    		// Construction de la réponse
 	    		result.withId(_dog.getId() )
 	    			.withGender( _dog.getSexe() )
@@ -107,15 +106,18 @@ public class DogService {
 	    			.withPedigrees( searchPedigrees ( _dog.getNumlof(), _dog.getNumconfirmation(), _dog.getDateConfirmation() ))
 	    			.withTokens( searchTokens ( _dog.getTatouage(), _dog.getTranspondeur()))
 	    			.withBreed( searchBreed(_dog))
-	    			.withFather( searchParent( _dog.getIdEtalon()) )
-	    			.withMother( searchParent( _dog.getIdLice()) )
+	    			.withFather( ( _dog.getIdEtalon() == 0 ? null : searchParent( _dog.getIdEtalon()) ))
+	    			.withMother( ( _dog.getIdLice() == 0 ? null : searchParent( _dog.getIdLice()) ))
 	    			.withBreeder( searchBreeder ( _dog.getId() ))
 	    			.withOwners( searchOwners ( _dog.getId() ))
 	    			.withTitles( searchTitles ( _dog.getId() ))
 	    		;
 	    		
 	    		// Lecture de l'éleveur pour afficher le nom complet du chien
-    			String _name = buildName (_dog.getNom(), _dog.getAffixe(), result.getBreeder().getOnSuffixe());
+    			String _name = buildName (_dog.getNom()
+    					, _dog.getAffixe()
+    					, (result.getBreeder() == null ? "O" : result.getBreeder().getOnSuffixe())
+    			);
 	    		result.withName( _name );
 
 	    		results.add(result);
@@ -305,15 +307,15 @@ public class DogService {
 
     }
     
-    public void saveLicense(Dog license){
+    public void saveDog(Dog _dog){
 
     }
 
-    public void updateLicense(Dog license){
+    public void updateDog(Dog _dog){
 
     }
 
-    public void deleteLicense(Dog license){
+    public void deleteDog(Dog _dog){
 
     }
 
