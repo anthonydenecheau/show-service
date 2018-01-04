@@ -4,32 +4,22 @@ import java.util.List;
 
 public class ResponseObjectList<T> {
 
-	private int nbResults;
+	private int itemsCount;
 	
-	private List<T> objectList;
+	private List<T> items;
 	
-	public ResponseObjectList(int nbResults, List<T> objectList) {
+	public ResponseObjectList(int itemsCount, List<T> items) {
 		super();
-		this.nbResults = nbResults;
-		this.objectList = objectList;
+		this.itemsCount = itemsCount;
+		this.items = items;
 	}
 	
-	public int getNbResults() {
-		return nbResults;
-	}
-	public void setNbResults(int nbResults) {
-		this.nbResults = nbResults;
-	}
+	public int getItemsCount() { return itemsCount; }
+	public void setItemsCount(int itemsCount) { this.itemsCount = itemsCount; }
 
-	public List<T> getObjectList() {
-		return objectList;
-	}
-	public void setObjectList(List<T> objectList) {
-		this.objectList = objectList;
-	}
+	public List<T> getItems() { return items; }
+	public void setItems(List<T> items) { this.items = items; }
 
-	public int size() {
-		return this.objectList.size();
-	}
+	public int size() { return this.items.size(); }
 	
 }

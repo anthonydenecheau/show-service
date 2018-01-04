@@ -1,5 +1,7 @@
 package com.scc.onlinedogshow.services;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class OwnerService {
     @Autowired
     ServiceConfig config;
 
-    public Owner getOwnerByIdDog(int dogId){
+    public List<Owner> getOwnerByIdDog(int dogId){
         Span newSpan = tracer.createSpan("getOwnerByIdDog");
         logger.debug("In the breederService.getOwnerByIdDog() call, trace id: {}", tracer.getCurrentSpan().traceIdString());
         try {

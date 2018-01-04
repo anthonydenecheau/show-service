@@ -242,7 +242,7 @@ public class DogService {
     	List<Owner> _owners = new ArrayList<Owner>();
     	
     	try {
-    		_owners.add(ownerService.getOwnerByIdDog( _id ));
+    		_owners = ownerService.getOwnerByIdDog( _id );
     		
     	} catch (Exception e) {
     		
