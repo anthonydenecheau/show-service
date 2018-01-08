@@ -14,8 +14,8 @@ import com.scc.onlinedogshow.repository.DogRepository;
 import com.scc.onlinedogshow.template.Breed;
 import com.scc.onlinedogshow.model.Breeder;
 import com.scc.onlinedogshow.model.Owner;
-import com.scc.onlinedogshow.template.Pedigree;
 import com.scc.onlinedogshow.model.Parent;
+import com.scc.onlinedogshow.model.Pedigree;
 import com.scc.onlinedogshow.template.ResponseObject;
 import com.scc.onlinedogshow.template.ResponseObjectList;
 
@@ -43,6 +43,9 @@ public class DogService {
 
     @Autowired
     private TitleService titleService;
+
+    @Autowired
+    private PedigreeService pedigreeService;
 
     @Autowired
     private DogRepository dogRepository;
@@ -103,7 +106,7 @@ public class DogService {
 	    			.withGender( _dog.getSexe() )
 	    			.withBirthDate( _dog.getDateNaissance() )
 	    			.withBirthCountry( _dog.getPays() )
-	    			.withPedigrees( searchPedigrees ( _dog.getNumlof(), _dog.getNumconfirmation(), _dog.getDateConfirmation() ))
+	    			.withPedigrees( searchPedigrees ( _dog.getId() ))
 	    			.withTokens( searchTokens ( _dog.getTatouage(), _dog.getTranspondeur()))
 	    			.withBreed( searchBreed(_dog))
 	    			.withFather( ( _dog.getIdEtalon() == 0 ? null : searchParent( _dog.getIdEtalon()) ))
@@ -263,17 +266,12 @@ public class DogService {
     	
     }
     
-    private List<Pedigree> searchPedigrees(String _numLof, String _numconfirmation, String _obtentionDate) {
+    private List<Pedigree> searchPedigrees(int _id) {
     	
     	List<Pedigree> _pedigrees = new ArrayList<Pedigree>();
     	
     	try {
-    		Pedigree _pedigree = new Pedigree();
-    		_pedigree.setCountry("FR");
-    		_pedigree.setType("LOF");
-    		_pedigree.setNumber(_numLof + ((_numconfirmation==null || "".equals(_numconfirmation)) ? "" : "/" + _numconfirmation));
-    		_pedigree.setObtentionDate(_obtentionDate);
-    		_pedigrees.add(_pedigree);
+    		_pedigrees = pedigreeService.getPedigreesByIdDog( _id );
     	} catch (Exception e) {
     		
     	}

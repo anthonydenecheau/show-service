@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.scc.onlinedogshow.model.Breeder;
 import com.scc.onlinedogshow.model.Owner;
+import com.scc.onlinedogshow.model.Pedigree;
 import com.scc.onlinedogshow.model.Title;
 
 public class ResponseObject {
