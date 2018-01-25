@@ -7,8 +7,8 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Onligne Dog Show Service</name>
-  <description>Onligne Dog Show Service</description>
+  <name>Online Dog Show Service</name>
+  <description>Online Dog Show Service</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
