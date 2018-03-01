@@ -36,9 +36,6 @@ public class Breeder {
 	@Column(name = "id_chien", nullable = false)
 	private int idDog;
 	
-	@Column(name = "date_maj")
-	private Timestamp timestamp;
-
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
 
@@ -63,9 +60,6 @@ public class Breeder {
 	public String getOnSuffixe() { return onSuffixe; }
 	public void setOnSuffixe(String onSuffixe) { this.onSuffixe = onSuffixe; }
 
-	public Timestamp getTimestamp() { return timestamp; }
-	public void setTimestamp(Timestamp timestamp) { this.timestamp = timestamp; }
-	
 	public Breeder withId(int id){ this.setId( id ); return this; }
 	public Breeder withFirstName(String firstName){ this.setFirstName(firstName); return this; }
 	public Breeder withLastName(String lastName){ this.setLastName(lastName); return this; }
@@ -74,13 +68,12 @@ public class Breeder {
 	public Breeder withProfessionnelActif(String professionnelActif){ this.setProfessionnelActif(professionnelActif); return this; }
 	public Breeder withRaisonSociale(String raisonSociale){ this.setRaisonSociale(raisonSociale); return this; }
 	public Breeder withOnSuffixe(String onSuffixe){ this.setOnSuffixe(onSuffixe); return this; }
-	public Breeder withTimestamp(Timestamp timestamp){ this.setTimestamp(timestamp); return this; }
 	
 	@Override
 	public String toString() {
 		return "Breeder [id=" + id + ", lastName=" + lastName + ", firstName=" + firstName + ", typeProfil="
 				+ typeProfil + ", professionnelActif=" + professionnelActif + ", raisonSociale=" + raisonSociale
-				+ ", onSuffixe=" + onSuffixe + ", idDog=" + idDog + ", timestamp=" + timestamp + "]";
+				+ ", onSuffixe=" + onSuffixe + ", idDog=" + idDog + "]";
 	}
 
 	
