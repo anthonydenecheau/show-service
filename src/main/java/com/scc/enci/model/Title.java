@@ -36,6 +36,9 @@ public class Title {
 	@Column(name = "date_obtention")
 	private String obtentionDate;
 	
+	@Column(name = "date_maj")
+	private Timestamp timestamp;
+
 	public long getId() { return id; }
 	public void setId(long id) { this.id = id; }
 
@@ -60,6 +63,9 @@ public class Title {
 	public String getObtentionDate() { return obtentionDate; }
 	public void setObtentionDate(String obtentionDate) { this.obtentionDate = obtentionDate; }
 
+	public Timestamp getTimestamp() { return timestamp; }
+	public void setTimestamp(Timestamp timestamp) { this.timestamp = timestamp; }
+
 	public Title withId(long id){ this.setId( id ); return this; }
 	public Title withIdTitle(int idTitle){ this.setIdTitle(idTitle); return this; }
 	public Title withTitle(String title){ this.setTitle(title); return this; }
@@ -68,11 +74,12 @@ public class Title {
 	public Title withCountry(String country){ this.setCountry(country); return this; }
 	public Title withObtentionDate(String obtentionDate){ this.setObtentionDate(obtentionDate); return this; }
 	public Title withIdDog(int idDog){ this.setIdDog(idDog); return this; }
+	public Title withTimestamp(Timestamp timestamp){ this.setTimestamp(timestamp); return this; }
 	
 	@Override
 	public String toString() {
 		return "Title [id=" + id + ", idDog=" + idDog + ", title=" + title + ", name=" + name + ", type=" + type
-				+ ", country=" + country + ", obtentionDate=" + obtentionDate + "]";
+				+ ", country=" + country + ", obtentionDate=" + obtentionDate + ", timestamp=" + timestamp + "]";
 	}
 	
 	
