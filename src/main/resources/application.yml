@@ -1,3 +1,7 @@
+#Default port is 8091
+server:
+  port: 8091
+  
 spring:
   zipkin:
     baseUrl:  http://localhost:9411

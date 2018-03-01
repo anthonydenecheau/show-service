@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.scc</groupId>
-  <artifactId>onlinedogshow-service</artifactId>
+  <artifactId>enci-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Online Dog Show Service</name>
-  <description>Online Dog Show Service</description>
+  <name>Enci Service</name>
+  <description>Enci Service</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -105,8 +105,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <start-class>com.scc.onlinedogshow.Application</start-class>
-    <docker.image.name>anthonydenecheau/scc-onlinedogshow-service</docker.image.name>
+    <start-class>com.scc.enci.Application</start-class>
+    <docker.image.name>anthonydenecheau/scc-enci-service</docker.image.name>
     <docker.image.tag>version1.0</docker.image.tag>
   </properties>
 
