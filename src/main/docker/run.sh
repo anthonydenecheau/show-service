@@ -25,10 +25,10 @@ while ! `nc -z zipkin $ZIPKIN_PORT`; do sleep 10; done
 echo "******* ZIPKIN has started"
 
 echo "********************************************************"
-echo "Starting Enci Server with Configuration Service via Eureka :  $EUREKASERVER_URI" ON PORT: $SERVER_PORT;
+echo "Starting Enci Judge Server with Configuration Service via Eureka :  $EUREKASERVER_URI" ON PORT: $SERVER_PORT;
 echo "********************************************************"
 java -Djava.security.egd=file:/dev/./urandom -Dserver.port=$SERVER_PORT   \
      -Deureka.client.serviceUrl.defaultZone=$EUREKASERVER_URI             \
      -Dspring.cloud.config.uri=$CONFIGSERVER_URI                          \
      -Dspring.zipkin.baseUrl=$ZIPKIN_URI                                  \
-     -Dspring.profiles.active=$PROFILE -jar /usr/local/enciservice/@project.build.finalName@.jar
+     -Dspring.profiles.active=$PROFILE -jar /usr/local/encijudgeservice/@project.build.finalName@.jar
