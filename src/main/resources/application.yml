@@ -1,6 +1,6 @@
-#Default port is 8092
+#Default port is 8093
 server:
-  port: 8092
+  port: 8093
   
 spring:
   zipkin:

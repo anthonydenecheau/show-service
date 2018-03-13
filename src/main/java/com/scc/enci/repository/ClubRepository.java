@@ -5,11 +5,10 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.scc.enci.model.JudgeBreed;
+import com.scc.enci.model.Club;
 
 @Repository
-public interface BreedRepository extends CrudRepository<JudgeBreed, String> {
+public interface ClubRepository extends CrudRepository<Club, String> {
 	
-    public List<JudgeBreed> findById(int id);
-
+	public List<Club> findAll();
 }
