@@ -1,11 +1,11 @@
-package com.scc.enci.utils;
+package com.scc.show.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.scc.enci.config.ServiceConfig;
+import com.scc.show.config.AuthenticateConfig;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -26,8 +26,8 @@ public class UserContextFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(UserContextFilter.class);
 
     @Autowired
-    ServiceConfig config;
-    
+    AuthenticateConfig authenticate;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
@@ -65,14 +65,19 @@ public class UserContextFilter implements Filter {
     private boolean authenticate(String authCredentials) {
 		if (null == authCredentials)
 			return false;
-		if (!config.getAuthKey().equals(authCredentials))
-			return false;
+
+		// la clé transmise est-elle reconnue ?
+		for (String _key : authenticate.getKeys())
+			if (!_key.equals(authCredentials))
+				return false;
+		
 		Boolean ok = false;
 
 		Date today = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-		String dateLimiteString = config.getAuthValue();
+		// la clé est-elle toujours active ?
+		String dateLimiteString = authenticate.getValue();
 		if (dateLimiteString != null) {
 			Date dateLimite = null;
 			try {

@@ -1,4 +1,4 @@
-package com.scc.enci.template;
+package com.scc.show.template;
 
 import java.util.List;
 

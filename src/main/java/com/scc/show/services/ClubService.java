@@ -1,4 +1,4 @@
-package com.scc.enci.services;
+package com.scc.show.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.Span;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.scc.enci.config.ServiceConfig;
-import com.scc.enci.model.Club;
-import com.scc.enci.repository.ClubRepository;
-import com.scc.enci.template.ClubObject;
-import com.scc.enci.template.ResponseObjectList;
+import com.scc.show.config.ServiceConfig;
+import com.scc.show.model.Club;
+import com.scc.show.repository.ClubRepository;
+import com.scc.show.template.ClubObject;
+import com.scc.show.template.ResponseObjectList;
 
 import java.util.ArrayList;
 import java.util.List;

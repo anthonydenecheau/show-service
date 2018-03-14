@@ -1,4 +1,4 @@
-package com.scc.enci;
+package com.scc.show;
 
 import javax.servlet.Filter;
 
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import com.google.common.base.Predicates;
-import com.scc.enci.utils.UserContextFilter;
+import com.scc.show.utils.UserContextFilter;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -46,7 +46,7 @@ public class Application extends WebMvcConfigurationSupport {
         		.apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors
-                        .basePackage("com.scc.enci.controllers"))
+                        .basePackage("com.scc.show.controllers"))
                 .apis(Predicates.not(RequestHandlerSelectors.basePackage("org.springframework.boot")))
                 .paths(PathSelectors.any())
                 .build();

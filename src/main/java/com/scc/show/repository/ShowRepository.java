@@ -1,11 +1,11 @@
-package com.scc.enci.repository;
+package com.scc.show.repository;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.scc.enci.model.Show;
+import com.scc.show.model.Show;
 
 @Repository
 public interface ShowRepository extends CrudRepository<Show, String> {
