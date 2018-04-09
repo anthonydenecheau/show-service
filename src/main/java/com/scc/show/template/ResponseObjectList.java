@@ -6,10 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class ResponseObjectList<T> {
 
-	@ApiModelProperty(notes = "The Total of judges/breeds", position = 1, required = true)
+	@ApiModelProperty(notes = "The Total of clubs/shows", position = 1, required = true)
 	private int itemsCount;
 	
-	@ApiModelProperty(notes = "The list of judges/breeds", position = 2, required = true, allowEmptyValue=true)
+	@ApiModelProperty(notes = "The list of clubs/shows", position = 2, required = true, allowEmptyValue=true)
 	private List<T> items;
 	
 	public ResponseObjectList(int itemsCount, List<T> items) {
