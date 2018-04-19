@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.scc.show.config.ServiceConfig;
-import com.scc.show.model.Club;
 import com.scc.show.repository.ClubRepository;
 import com.scc.show.template.ClubObject;
 import com.scc.show.template.ResponseObjectList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public class ClubService {
 
     private static final Logger logger = LoggerFactory.getLogger(ClubService.class);
-
+    
     @Autowired
     private Tracer tracer;
 
@@ -33,7 +33,7 @@ public class ClubService {
     @Autowired
     ServiceConfig config;
 
-    @HystrixCommand(fallbackMethod = "buildFallbackClubList",
+	@HystrixCommand(fallbackMethod = "buildFallbackClubList",
             threadPoolKey = "getClubsThreadPool",
             threadPoolProperties =
                     {@HystrixProperty(name = "coreSize",value="30"),
@@ -51,29 +51,24 @@ public class ClubService {
         logger.debug("In the clubService.getClubs() call, trace id: {}", tracer.getCurrentSpan().traceIdString());
         try {
         	
-        	List<Club> list = new ArrayList<Club>(); 
-        	list = clubRepository.findAll();
-        		
         	List<ClubObject> results = new ArrayList<ClubObject>();
-	    	
-	    	for (Club _club : list) {
-	    		
-	    		ClubObject result = new ClubObject();
 
-		    	// Construction de la réponse
-	    		result.withId(_club.getId() )
-	    			.withName( _club.getName() )
-	    			.withAddress( _club.getAddress())
-	    			.withCity( _club.getCity() )
-	    			.withZipCode( _club.getZipCode() )
-	    			.withInscriptionEmail( _club.getInscriptionEmail() )
-	    			.withInfoEmail( _club.getInfoEmail() )
-	    			.withTelephone( _club.getTelephone() )
-	    		;
-	    		
-	    		results.add(result);
-	    	}
-	    	return new ResponseObjectList<ClubObject>(results.size(),results);
+        	results = clubRepository.findAll()
+        		.stream()
+        		.map(_club -> new ClubObject()
+        				.withId(_club.getId())
+    	    			.withName( _club.getName() )
+    	    			.withAddress( _club.getAddress())
+    	    			.withCity( _club.getCity() )
+    	    			.withZipCode( _club.getZipCode() )
+    	    			.withInscriptionEmail( _club.getInscriptionEmail() )
+    	    			.withInfoEmail( _club.getInfoEmail() )
+    	    			.withTelephone( _club.getTelephone() )
+        		)
+        		.collect(Collectors.toList())
+        	;
+
+        	return new ResponseObjectList<ClubObject>(results.size(),results);
         }
 	    finally{
 	    	newSpan.tag("peer.service", "postgres");

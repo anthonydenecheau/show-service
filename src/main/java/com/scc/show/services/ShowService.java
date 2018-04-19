@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.scc.show.config.ServiceConfig;
-import com.scc.show.model.Show;
 import com.scc.show.repository.ShowRepository;
 import com.scc.show.template.ResponseObjectList;
 import com.scc.show.template.ShowObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,32 +51,29 @@ public class ShowService {
         logger.debug("In the showService.getShows() call, trace id: {}", tracer.getCurrentSpan().traceIdString());
         try {
         	
-        	List<Show> list = new ArrayList<Show>(); 
-        	list = showRepository.findAll();
-        		
+        	
         	List<ShowObject> results = new ArrayList<ShowObject>();
-	    	
-	    	for (Show _show: list) {
-	    		
-	    		ShowObject result = new ShowObject();
 
-		    	// Construction de la réponse
-	    		result.withId(_show.getId() )
-	    			.withTypeCode(_show.getTypeCode() )
-	    			.withDescription( _show.getDescription() )
-	    			.withYear( _show.getYear() )
-	    			.withStartDate( _show.getStartDate() )
-	    			.withEndDate( _show.getEndDate() )
-	    			.withAddress( _show.getAddress())
-	    			.withCity( _show.getCity() )
-	    			.withZipCode( _show.getZipCode() )
-	    			.withCity( _show.getCity() )
-	    			.withOrganizingClubId( _show.getOrganizingClubId() )
-	    		;
-	    		
-	    		results.add(result);
-	    	}
-	    	return new ResponseObjectList<ShowObject>(results.size(),results);
+        	results = showRepository.findAll()
+        		.stream()
+        		.map(_show -> new ShowObject()
+        				.withId(_show.getId() )
+    	    			.withTypeCode( convertTypeCode(_show.getTypeCode()) )
+    	    			.withDescription( _show.getDescription() )
+    	    			.withYear( _show.getYear() )
+    	    			.withStartDate( _show.getStartDate() )
+    	    			.withEndDate( _show.getEndDate() )
+    	    			.withAddress( _show.getAddress())
+    	    			.withCity( _show.getCity() )
+    	    			.withZipCode( _show.getZipCode() )
+    	    			.withCity( _show.getCity() )
+    	    			.withOrganizingClubId( _show.getOrganizingClubId() )
+        		)
+        		.collect(Collectors.toList())
+        	;
+
+        	return new ResponseObjectList<ShowObject>(results.size(),results);
+        	
         }
 	    finally{
 	    	newSpan.tag("peer.service", "postgres");
@@ -85,7 +82,8 @@ public class ShowService {
 	    }
     }
 
-    private ResponseObjectList<ShowObject> buildFallbackShowList(){
+    @SuppressWarnings("unused")
+	private ResponseObjectList<ShowObject> buildFallbackShowList(){
     	
     	List<ShowObject> list = new ArrayList<ShowObject>(); 
     	list.add(new ShowObject()
@@ -94,4 +92,29 @@ public class ShowService {
         return new ResponseObjectList<ShowObject>(list.size(),list);
     }
     
+    private String convertTypeCode (String typeCode) {
+    	/*
+    	 * Association Type Evenement SCC
+    	 */
+    	String val="";
+    	switch(typeCode) {
+    		case "SHOWS": 
+	    	case "EXPOIB":
+	    		val = "ESIN";
+	            break;
+	    	case "EXPOCS":    
+	        	val = "ESNA";
+	            break;
+	        case "EXPORE":
+	        	val = "ESRE";
+	            break;
+	        case "EXPONE":
+	    	case "SCBA":
+	        	val = "RANA";
+	            break;
+	        default:
+	        	val = "";
+    	}
+    	return val;
+    }
 }
