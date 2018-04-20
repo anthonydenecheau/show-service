@@ -99,12 +99,15 @@ public class ShowService {
     	String val="";
     	switch(typeCode) {
     		case "SHOWS": 
+    		case "EXPOCH":
+    		case "CGA":
 	    	case "EXPOIB":
 	    		val = "ESIN";
 	            break;
 	    	case "EXPOCS":    
 	        	val = "ESNA";
 	            break;
+	    	case "EXPOSP":
 	        case "EXPORE":
 	        	val = "ESRE";
 	            break;
