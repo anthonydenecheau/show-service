@@ -122,7 +122,7 @@ public class ShowService {
     	return val;
     }
     
-    private String isFrenchChampionship(String typeCode) {
-    	return ( (typeCode != null && typeCode.equals("EXPOCH")) ? "O" : "N");
+    private int isFrenchChampionship(String typeCode) {
+    	return ( (typeCode != null && typeCode.equals("EXPOCH")) ? 1 : 0);
     }
 }
