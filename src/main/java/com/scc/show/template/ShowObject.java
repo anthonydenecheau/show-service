@@ -34,6 +34,9 @@ public class ShowObject {
 	@ApiModelProperty(notes = "Show organizing club id", position = 10, allowEmptyValue=true)
 	private int organizingClubId;
 
+	@ApiModelProperty(notes = "Show french championship", position = 11, allowEmptyValue=true)
+	private String frenchChampionship;
+
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
 
@@ -64,6 +67,9 @@ public class ShowObject {
 	public int getOrganizingClubId() { return organizingClubId; }
 	public void setOrganizingClubId(int organizingClubId) { this.organizingClubId = organizingClubId; }
 
+	public String getFrenchChampionship() { return frenchChampionship; }
+	public void setFrenchChampionship(String frenchChampionship) { this.frenchChampionship = frenchChampionship; }
+
 	public ShowObject withId(int id){ this.setId( id ); return this; }
 	public ShowObject withTypeCode(String typeCode){ this.setTypeCode( typeCode ); return this; }
 	public ShowObject withDescription(String description){ this.setDescription( description ); return this; }
@@ -74,5 +80,6 @@ public class ShowObject {
 	public ShowObject withZipCode(String zipCode){ this.setZipCode( zipCode ); return this; }
 	public ShowObject withCity(String city){ this.setCity( city ); return this; }
 	public ShowObject withOrganizingClubId(int organizingClubId){ this.setOrganizingClubId( organizingClubId ); return this; }
+	public ShowObject withFrenchChampionship(String frenchChampionship){ this.setFrenchChampionship( frenchChampionship ); return this; }
 
 }

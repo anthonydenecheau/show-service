@@ -67,7 +67,8 @@ public class ShowService {
     	    			.withCity( _show.getCity() )
     	    			.withZipCode( _show.getZipCode() )
     	    			.withCity( _show.getCity() )
-    	    			.withOrganizingClubId( _show.getOrganizingClubId() )
+    	    			.withOrganizingClubId( _show.getOrganizingClubId() ) 
+    	    			.withFrenchChampionship(isFrenchChampionship(_show.getTypeCode()))
         		)
         		.collect(Collectors.toList())
         	;
@@ -119,5 +120,9 @@ public class ShowService {
 	        	val = "";
     	}
     	return val;
+    }
+    
+    private String isFrenchChampionship(String typeCode) {
+    	return ( (typeCode != null && typeCode.equals("EXPOCH")) ? "O" : "N");
     }
 }
