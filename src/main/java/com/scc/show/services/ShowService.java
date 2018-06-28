@@ -116,6 +116,9 @@ public class ShowService {
 	    	case "SCBA":
 	        	val = "RANA";
 	            break;
+	    	case "CONF":
+	        	val = "CONF";
+	            break;
 	        default:
 	        	val = "";
     	}
