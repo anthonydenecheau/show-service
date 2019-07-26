@@ -23,82 +23,85 @@ import java.util.Date;
 
 @Component
 public class UserContextFilter implements Filter {
-    private static final Logger logger = LoggerFactory.getLogger(UserContextFilter.class);
+   private static final Logger logger = LoggerFactory.getLogger(UserContextFilter.class);
 
-    @Autowired
-    AuthenticateConfig authenticate;
+   @Autowired
+   AuthenticateConfig authenticate;
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+   @Override
+   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+         throws IOException, ServletException {
 
+      HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+      UserContextHolder.getContext()
+            .setAuthentificationKey(httpServletRequest.getHeader(UserContext.AUTHENTICATION_KEY));
 
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        UserContextHolder.getContext().setAuthentificationKey( httpServletRequest.getHeader(UserContext.AUTHENTICATION_KEY) );
+      // Swagger Authentification disabled
+      if (httpServletRequest.getRequestURL().toString().indexOf("api-docs") > 0
+            || httpServletRequest.getRequestURL().toString().indexOf("swagger") > 0) {
+         filterChain.doFilter(httpServletRequest, servletResponse);
+      } else {
+         logger.debug("Incoming Authentification key: {}", UserContextHolder.getContext().getAuthentificationKey());
+         String authCredentials = UserContextHolder.getContext().getAuthentificationKey();
 
-    	// Swagger Authentification disabled
-    	if (httpServletRequest.getRequestURL().toString().indexOf("api-docs")>0
-       		 || httpServletRequest.getRequestURL().toString().indexOf("swagger")>0) {
-    		filterChain.doFilter(httpServletRequest, servletResponse);
-    	} else {
-	        logger.debug("Incoming Authentification key: {}", UserContextHolder.getContext().getAuthentificationKey());
-	        String authCredentials = UserContextHolder.getContext().getAuthentificationKey();
-	
-	        if (authenticate(authCredentials)) {
-	        	filterChain.doFilter(httpServletRequest, servletResponse);
-	        } else {
-				if (servletResponse instanceof HttpServletResponse) {
-					HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-					httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					logger.error("Erreur d'authentification, clef fournie: {}", authCredentials);
-				}
-			}
-    	}                
-    }
+         if (authenticate(authCredentials)) {
+            filterChain.doFilter(httpServletRequest, servletResponse);
+         } else {
+            if (servletResponse instanceof HttpServletResponse) {
+               HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+               httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+               logger.error("Erreur d'authentification, clef fournie: {}", authCredentials);
+            }
+         }
+      }
+   }
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {}
+   @Override
+   public void init(FilterConfig filterConfig) throws ServletException {
+   }
 
-    @Override
-    public void destroy() {}
-    
-    private boolean authenticate(String authCredentials) {
-		Boolean ok = false;
+   @Override
+   public void destroy() {
+   }
 
-		if (null == authCredentials)
-			return ok;
+   private boolean authenticate(String authCredentials) {
+      Boolean ok = false;
 
-		// la clé transmise est-elle reconnue ?
-		for (String _key : authenticate.getKeys()) {
-			if (_key.equals(authCredentials))
-				ok = true;
-		}
+      if (null == authCredentials)
+         return ok;
 
-		if(!ok) {
-			return false;
-		}
-		
-		ok = false;
+      // la clé transmise est-elle reconnue ?
+      for (String _key : authenticate.getKeys()) {
+         if (_key.equals(authCredentials))
+            ok = true;
+      }
 
-		Date today = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+      if (!ok) {
+         return false;
+      }
 
-		// la clé est-elle toujours active ?
-		String dateLimiteString = authenticate.getValue();
-		if (dateLimiteString != null) {
-			Date dateLimite = null;
-			try {
-				dateLimite = formatter.parse(dateLimiteString);
+      ok = false;
 
-				if (dateLimite.after(today)) {
-					ok = true;
-				}
-			} catch (ParseException e) {
-				logger.error("Le format de la date associé à l'identifiant {} n'est pas au format valide (dd/MM/aaaa)",authCredentials);
-			}
-		}
+      Date today = new Date();
+      SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-		return ok;
+      // la clé est-elle toujours active ?
+      String dateLimiteString = authenticate.getValue();
+      if (dateLimiteString != null) {
+         Date dateLimite = null;
+         try {
+            dateLimite = formatter.parse(dateLimiteString);
 
-	}        
+            if (dateLimite.after(today)) {
+               ok = true;
+            }
+         } catch (ParseException e) {
+            logger.error("Le format de la date associé à l'identifiant {} n'est pas au format valide (dd/MM/aaaa)",
+                  authCredentials);
+         }
+      }
+
+      return ok;
+
+   }
 }

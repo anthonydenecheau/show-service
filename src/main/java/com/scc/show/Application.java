@@ -13,26 +13,25 @@ import org.springframework.context.annotation.Bean;
 
 import com.scc.show.utils.UserContextFilter;
 
-
 @SpringBootApplication
 @EnableEurekaClient
 @EnableCircuitBreaker
 @RefreshScope
 public class Application {
 
-    @Bean
-    public Filter userContextFilter() {
-        UserContextFilter userContextFilter = new UserContextFilter();
-        return userContextFilter;
-    }
-    
-    @Bean
-    public Sampler defaultSampler() {
-        return new AlwaysSampler();
-    }
-    
-	public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-	
+   @Bean
+   public Filter userContextFilter() {
+      UserContextFilter userContextFilter = new UserContextFilter();
+      return userContextFilter;
+   }
+
+   @Bean
+   public Sampler defaultSampler() {
+      return new AlwaysSampler();
+   }
+
+   public static void main(String[] args) {
+      SpringApplication.run(Application.class, args);
+   }
+
 }

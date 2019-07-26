@@ -9,7 +9,7 @@ import com.scc.show.model.Show;
 
 @Repository
 public interface ShowRepository extends CrudRepository<Show, String> {
-	
-    public List<Show> findAll();
-    
+
+   public List<Show> findAll();
+
 }
