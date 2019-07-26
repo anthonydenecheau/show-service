@@ -9,6 +9,6 @@ import com.scc.show.model.Club;
 
 @Repository
 public interface ClubRepository extends CrudRepository<Club, String> {
-	
-	public List<Club> findAll();
+
+   public List<Club> findAll();
 }

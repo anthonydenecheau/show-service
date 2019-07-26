@@ -22,68 +22,53 @@ import org.slf4j.LoggerFactory;
 @Service
 public class ClubService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClubService.class);
-    
-    @Autowired
-    private Tracer tracer;
+   private static final Logger logger = LoggerFactory.getLogger(ClubService.class);
 
-    @Autowired
-    private ClubRepository clubRepository;
-    
-    @Autowired
-    ServiceConfig config;
+   @Autowired
+   private Tracer tracer;
 
-	@HystrixCommand(fallbackMethod = "buildFallbackClubList",
-            threadPoolKey = "getClubsThreadPool",
-            threadPoolProperties =
-                    {@HystrixProperty(name = "coreSize",value="30"),
-                     @HystrixProperty(name="maxQueueSize", value="10")},
-            commandProperties={
-                     @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="10"),
-                     @HystrixProperty(name="circuitBreaker.errorThresholdPercentage", value="75"),
-                     @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds", value="7000"),
-                     @HystrixProperty(name="metrics.rollingStats.timeInMilliseconds", value="15000"),
-                     @HystrixProperty(name="metrics.rollingStats.numBuckets", value="5")}
-    )
-    public ResponseObjectList<ClubObject> getClubs(){
+   @Autowired
+   private ClubRepository clubRepository;
 
-        Span newSpan = tracer.createSpan("getClubs");
-        logger.debug("In the clubService.getClubs() call, trace id: {}", tracer.getCurrentSpan().traceIdString());
-        try {
-        	
-        	List<ClubObject> results = new ArrayList<ClubObject>();
+   @Autowired
+   ServiceConfig config;
 
-        	results = clubRepository.findAll()
-        		.stream()
-        		.map(_club -> new ClubObject()
-        				.withId(_club.getId())
-    	    			.withName( _club.getName() )
-    	    			.withAddress( _club.getAddress())
-    	    			.withCity( _club.getCity() )
-    	    			.withZipCode( _club.getZipCode() )
-    	    			.withInscriptionEmail( _club.getInscriptionEmail() )
-    	    			.withInfoEmail( _club.getInfoEmail() )
-    	    			.withTelephone( _club.getTelephone() )
-        		)
-        		.collect(Collectors.toList())
-        	;
+   @HystrixCommand(fallbackMethod = "buildFallbackClubList", threadPoolKey = "getClubsThreadPool", threadPoolProperties = {
+         @HystrixProperty(name = "coreSize", value = "30"),
+         @HystrixProperty(name = "maxQueueSize", value = "10") }, commandProperties = {
+               @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+               @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "75"),
+               @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "7000"),
+               @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "15000"),
+               @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "5") })
+   public ResponseObjectList<ClubObject> getClubs() {
 
-        	return new ResponseObjectList<ClubObject>(results.size(),results);
-        }
-	    finally{
-	    	newSpan.tag("peer.service", "postgres");
-	        newSpan.logEvent(org.springframework.cloud.sleuth.Span.CLIENT_RECV);
-	        tracer.close(newSpan);
-	    }
-    }
+      Span newSpan = tracer.createSpan("getClubs");
+      logger.debug("In the clubService.getClubs() call, trace id: {}", tracer.getCurrentSpan().traceIdString());
+      try {
 
-    private ResponseObjectList<ClubObject> buildFallbackClubList(){
-    	
-    	List<ClubObject> list = new ArrayList<ClubObject>(); 
-    	list.add(new ClubObject()
-                .withId(0))
-    	;
-        return new ResponseObjectList<ClubObject>(list.size(),list);
-    }
-    
+         List<ClubObject> results = new ArrayList<ClubObject>();
+
+         results = clubRepository.findAll().stream()
+               .map(_club -> new ClubObject().withId(_club.getId()).withName(_club.getName())
+                     .withAddress(_club.getAddress()).withCity(_club.getCity()).withZipCode(_club.getZipCode())
+                     .withInscriptionEmail(_club.getInscriptionEmail()).withInfoEmail(_club.getInfoEmail())
+                     .withTelephone(_club.getTelephone()))
+               .collect(Collectors.toList());
+
+         return new ResponseObjectList<ClubObject>(results.size(), results);
+      } finally {
+         newSpan.tag("peer.service", "postgres");
+         newSpan.logEvent(org.springframework.cloud.sleuth.Span.CLIENT_RECV);
+         tracer.close(newSpan);
+      }
+   }
+
+   private ResponseObjectList<ClubObject> buildFallbackClubList() {
+
+      List<ClubObject> list = new ArrayList<ClubObject>();
+      list.add(new ClubObject().withId(0));
+      return new ResponseObjectList<ClubObject>(list.size(), list);
+   }
+
 }
