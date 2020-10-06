@@ -15,22 +15,17 @@ spring:
     password: DBPWD
   hystrix:
     command:
-      lofselectclubservice:
+      showservice:
         execution:
           isolation:
             thread:
               timeoutInMilliseconds: 7000
                 
-lofselectclubservice:
+showservice:
   ribbon:
     ReadTimeout: 7000
   authenticationKey: SECURE_KEY 
   authenticationValue: SECURE_NAME
-  breeder:
-    limitTopNAffix: 20
-  parent:
-    limitTopNFathers: 20   
-
 
 ---
 spring:
