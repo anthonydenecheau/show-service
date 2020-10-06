@@ -1,9 +1,9 @@
 package com.scc.show.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Component
+@ConfigurationProperties("showservice")
 public class AuthenticateConfig {
 
    @Value("${showservice.authenticationKey}")
