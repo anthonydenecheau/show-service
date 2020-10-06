@@ -1,8 +1,6 @@
 package com.scc.show.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.stereotype.Service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -25,9 +23,6 @@ public class ClubService {
    private static final Logger logger = LoggerFactory.getLogger(ClubService.class);
 
    @Autowired
-   private Tracer tracer;
-
-   @Autowired
    private ClubRepository clubRepository;
 
    @Autowired
@@ -43,8 +38,7 @@ public class ClubService {
                @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "5") })
    public ResponseObjectList<ClubObject> getClubs() {
 
-      Span newSpan = tracer.createSpan("getClubs");
-      logger.debug("In the clubService.getClubs() call, trace id: {}", tracer.getCurrentSpan().traceIdString());
+      logger.debug("In the clubService.getClubs() call, trace id: {}", "");
       try {
 
          List<ClubObject> results = new ArrayList<ClubObject>();
@@ -58,9 +52,6 @@ public class ClubService {
 
          return new ResponseObjectList<ClubObject>(results.size(), results);
       } finally {
-         newSpan.tag("peer.service", "postgres");
-         newSpan.logEvent(org.springframework.cloud.sleuth.Span.CLIENT_RECV);
-         tracer.close(newSpan);
       }
    }
 

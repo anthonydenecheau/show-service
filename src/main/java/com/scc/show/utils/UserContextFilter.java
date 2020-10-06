@@ -25,8 +25,12 @@ import java.util.Date;
 public class UserContextFilter implements Filter {
    private static final Logger logger = LoggerFactory.getLogger(UserContextFilter.class);
 
-   @Autowired
-   AuthenticateConfig authenticate;
+   final AuthenticateConfig authenticate;
+
+   public UserContextFilter(AuthenticateConfig authenticate) {
+      super();
+      this.authenticate = authenticate;
+   }
 
    @Override
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -66,42 +70,31 @@ public class UserContextFilter implements Filter {
 
    private boolean authenticate(String authCredentials) {
       Boolean ok = false;
-
-      if (null == authCredentials)
-         return ok;
-
-      // la clé transmise est-elle reconnue ?
-      for (String _key : authenticate.getKeys()) {
-         if (_key.equals(authCredentials))
-            ok = true;
-      }
-
-      if (!ok) {
-         return false;
-      }
-
-      ok = false;
-
-      Date today = new Date();
-      SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-      // la clé est-elle toujours active ?
-      String dateLimiteString = authenticate.getValue();
-      if (dateLimiteString != null) {
-         Date dateLimite = null;
-         try {
-            dateLimite = formatter.parse(dateLimiteString);
-
-            if (dateLimite.after(today)) {
-               ok = true;
-            }
-         } catch (ParseException e) {
-            logger.error("Le format de la date associé à l'identifiant {} n'est pas au format valide (dd/MM/aaaa)",
-                  authCredentials);
-         }
-      }
-
-      return ok;
-
+      logger.info("Value: {}", authenticate.getAuthenticationValue());
+      return true;
+      /*
+       * if (null == authCredentials) return ok;
+       * 
+       * // la clé transmise est-elle reconnue ? for (String _key :
+       * authenticate.getKeys()) { if (_key.equals(authCredentials)) ok = true; }
+       * 
+       * if (!ok) { return false; }
+       * 
+       * ok = false;
+       * 
+       * Date today = new Date(); SimpleDateFormat formatter = new
+       * SimpleDateFormat("dd/MM/yyyy");
+       * 
+       * // la clé est-elle toujours active ? String dateLimiteString =
+       * authenticate.getValue(); if (dateLimiteString != null) { Date dateLimite =
+       * null; try { dateLimite = formatter.parse(dateLimiteString);
+       * 
+       * if (dateLimite.after(today)) { ok = true; } } catch (ParseException e) {
+       * logger.
+       * error("Le format de la date associé à l'identifiant {} n'est pas au format valide (dd/MM/aaaa)"
+       * , authCredentials); } }
+       * 
+       * return ok;
+       */
    }
 }

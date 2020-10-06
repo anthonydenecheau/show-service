@@ -2,9 +2,23 @@
 server:
   port: 8093
   
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: health
+      exposure:
+        include: "*"
+          
 spring:
-  zipkin:
-    baseUrl:  http://localhost:9411
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
 
 eureka:
   instance:
@@ -27,4 +41,4 @@ springfox:
 #  level:
 #    com.netflix: WARN
 #    org.springframework.web: WARN
-#    com.scc: DEBUG      
+#    com.scc: DEBUG     

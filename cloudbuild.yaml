@@ -1,0 +1,24 @@
+#Fichier de config CloudBuild
+steps:
+- name: 'gcr.io/cloud-builders/mvn'
+  args: ['install']
+# Get credentials
+#- name: gcr.io/cloud-builders/gcloud
+#  entrypoint: 'bash'
+#  args: [ '-c', 'gcloud secrets versions access latest --secret=ws-openid-enc > ws-openid.json' ]  
+# Package
+- name: 'ubuntu'
+  id: 'Setup'
+  args: ['bash', '-c', 'scripts/travis/build_services.sh']
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:$COMMIT_SHA', '.' ]
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/scc-show-service:$COMMIT_SHA']
+# Deploy container image to GCE
+images:
+- 'gcr.io/$PROJECT_ID/showservice:$COMMIT_SHA'
+options:
+ machineType: 'N1_HIGHCPU_8'
+ diskSizeGb: 200
