@@ -5,7 +5,7 @@ steps:
 # Build and tag the image.
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}', '.' ]
-# Get credentials
+# Get credentials.
 - name: gcr.io/cloud-builders/gcloud
   entrypoint: 'bash'
   args: [ '-c', 'gcloud secrets versions access latest --secret=github-token > github-token' ]  
