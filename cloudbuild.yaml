@@ -1,21 +1,29 @@
 # Package jar
 steps:
 - name: 'gcr.io/cloud-builders/mvn'
+  id: package
   args: ['clean','package','-Dmaven.test.skip=true']
 # Build and tag the image.
 - name: 'gcr.io/cloud-builders/docker'
+  id: build
   args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}', '.' ]
 # Get credentials.
 - name: gcr.io/cloud-builders/gcloud
+  id: credentials
   entrypoint: 'bash'
   args: [ '-c', 'gcloud secrets versions access latest --secret=github-token > github-token' ]  
 # Publish newer version.
 - name: gcr.io/cloud-builders/git
+  id: git
+- name: 'ubuntu'
+  id: publish
   args: ['bash', '-c', 'chmod +x ./scripts/deploy_to_gcp.sh && ./scripts/deploy_to_gcp.sh']
   env:
     - 'GCP_ENV=RE7'  
     - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
     - 'GITHUB_TOKEN=$(cat github-token)'
+  waitFor:
+    - git 
 images:
 - 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}'
 options:
