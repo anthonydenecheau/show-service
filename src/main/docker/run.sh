@@ -17,4 +17,4 @@ echo "Starting Enci Show Server with Configuration Service via Eureka :  $EUREKA
 echo "********************************************************"
 java -Djava.security.egd=file:/dev/./urandom -Dserver.port=$SERVER_PORT   \
      -Deureka.client.serviceUrl.defaultZone=$EUREKASERVER_URI             \
-     -Dspring.profiles.active=$PROFILE -jar /usr/local/showservice/@project.build.finalName@.jar
+     -Dspring.profiles.active=$PROFILE -jar /usr/local/showservice/show-service-0.0.1-SNAPSHOT.jar
