@@ -12,7 +12,7 @@ steps:
 # Publish newer version.
 - name: 'ubuntu'
   id: 'Setup'
-  args: ['bash', '-c', 'scripts/deploy_to_gcp.sh']
+  args: ['bash', '-c', 'chmod +x ./scripts/deploy_to_gcp.sh && ./scripts/deploy_to_gcp.sh']
   env:
     - 'GCP_ENV=RE7'  
     - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
