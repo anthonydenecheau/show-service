@@ -16,7 +16,6 @@ steps:
 - name: gcr.io/cloud-builders/git
   id: gitclone
   args: ['clone', 'git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@${GITHUB_REPO} ${LOCAL_REPO} --branch ${GCP_ENV} --single-branch 2>&1']
-  dir: 'examples/version-file'  
   env:
     - 'GCP_ENV=RE7'  
     - 'GITHUB_USER=gcloud-repo'
@@ -32,8 +31,9 @@ steps:
     - 'GCP_ENV=RE7'  
     - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
     - 'GITHUB_TOKEN=$(cat github-token)'
+    - 'LOCAL_REPO=../gcp-migration'
   waitFor:
-    - git 
+    - gitclone 
 images:
 - 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}'
 options:
