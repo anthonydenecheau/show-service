@@ -18,14 +18,15 @@ steps:
 # Access the id_github file from Secret Manager
 steps:
 - name: gcr.io/cloud-builders/gcloud
+  id: id_github
   entrypoint: 'bash'
   args: [ '-c', 'gcloud secrets versions access latest --secret=id_github > /root/.ssh/id_github' ]
   volumes:
   - name: 'ssh'
     path: /root/.ssh
-
 # Set up git with key and domain
 - name: 'gcr.io/cloud-builders/git'
+  id: setupKey
   entrypoint: 'bash'
   args:
   - '-c'
@@ -52,7 +53,7 @@ steps:
   - name: 'ssh'
     path: /root/.ssh    
   waitFor:
-    - credentials     
+    - setupKey     
 - name: 'ubuntu'
   id: publish
   args: ['bash', '-c', 'chmod +x ./scripts/deploy_to_gcp.sh && ./scripts/deploy_to_gcp.sh']
