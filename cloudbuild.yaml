@@ -8,7 +8,7 @@ steps:
 # Get credentials
 - name: gcr.io/cloud-builders/gcloud
   entrypoint: 'bash'
-  args: [ '-c', 'gcloud secrets versions access latest --secret=github_token > github_token' ]  
+  args: [ '-c', 'gcloud secrets versions access latest --secret=github-token > github-token' ]  
 # Publish newer version.
 - name: 'ubuntu'
   id: 'Setup'
@@ -16,7 +16,7 @@ steps:
   env:
     - 'GCP_ENV=RE7'  
     - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
-    - 'GITHUB_TOKEN=$(cat github_token)'
+    - 'GITHUB_TOKEN=$(cat github-token)'
 images:
 - 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}'
 options:
