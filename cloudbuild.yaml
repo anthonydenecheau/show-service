@@ -5,7 +5,18 @@ steps:
 # Build and tag the image.
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}', '.' ]
-# Publish the image to Container Registry.
+# Get credentials
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', 'gcloud secrets versions access latest --secret=github_token > github_token' ]  
+# Publish newer version.
+- name: 'ubuntu'
+  id: 'Setup'
+  args: ['bash', '-c', 'scripts/deploy_to_gcp.sh']
+  env:
+    - 'GCP_ENV=RE7'  
+    - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
+    - 'GITHUB_TOKEN=$(cat github_token)'
 images:
 - 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}'
 options:
