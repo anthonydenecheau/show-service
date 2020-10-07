@@ -1,9 +1,9 @@
 #Fichier de config CloudBuild
 steps:
 - name: 'gcr.io/cloud-builders/mvn'
-  args: ['clean','package','docker:build','-Dmaven.test.skip=true']
-  env:
-    - 'BRANCH_NAME=$BRANCH_NAME'
+  args: ['clean','package','-Dmaven.test.skip=true']
+#  env:
+#    - 'BRANCH_NAME=$BRANCH_NAME'
 # Get credentials
 #- name: gcr.io/cloud-builders/gcloud
 #  entrypoint: 'bash'
