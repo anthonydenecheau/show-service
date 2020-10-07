@@ -1,26 +1,13 @@
-#Fichier de config CloudBuild
+# Package jar
 steps:
 - name: 'gcr.io/cloud-builders/mvn'
   args: ['clean','package','-Dmaven.test.skip=true']
-#  env:
-#    - 'BRANCH_NAME=$BRANCH_NAME'
-# Get credentials
-#- name: gcr.io/cloud-builders/gcloud
-#  entrypoint: 'bash'
-#  args: [ '-c', 'gcloud secrets versions access latest --secret=ws-openid-enc > ws-openid.json' ]  
-# Package
-#- name: 'ubuntu'
-#  id: 'Setup'
-#  args: ['bash', '-c', 'scripts/travis/build_services.sh']
-# Build the container image
+# Build and tag the image.
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:$BRANCH_NAME', '.' ]
-# Push the container image to Container Registry
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/scc-show-service:$BRANCH_NAME']
-# Deploy container image to GCE
+  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}', '.' ]
+# Publish the image to Container Registry.
 images:
-- 'gcr.io/$PROJECT_ID/showservice:$BRANCH_NAME'
+- 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}'
 options:
  machineType: 'N1_HIGHCPU_8'
  diskSizeGb: 200
