@@ -7,12 +7,12 @@ spring:
   cloud:
     gcp:
       sql:
-        databaseName: DBNAME
-        instance-connection-name: DBINSTANCE
+        databaseName: ${sm://projects/905137618880/secrets/show-service-db_username}  
+        instance-connection-name: ${sm://projects/905137618880/secrets/show-service-db_instance_name}
   datasource:
-    url: jdbc:postgresql://google/${spring.cloud.gcp.sql.databaseName}?socketFactory=com.google.cloud.sql.postgres.SocketFactory&cloudSqlInstance=${spring.cloud.gcp.sql.instance-connection-name}&useSSL=false
-    username: DBUSER
-    password: DBPWD
+    url: jdbc:postgresql://google/${sm://projects/905137618880/secrets/show-service-db_username}?socketFactory=com.google.cloud.sql.postgres.SocketFactory&cloudSqlInstance=${sm://projects/905137618880/secrets/show-service-db_instance_name}&useSSL=false
+    username: ${sm://projects/905137618880/secrets/show-service-db_username}  
+    password: ${sm://projects/905137618880/secrets/show-service-db_password}  
   hystrix:
     command:
       showservice:
