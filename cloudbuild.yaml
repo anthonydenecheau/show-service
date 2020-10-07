@@ -42,7 +42,8 @@ steps:
     path: /root/.ssh
 - name: gcr.io/cloud-builders/git
   id: gitclone
-  args: ['clone', 'git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@${GITHUB_REPO} ${LOCAL_REPO} --branch ${GCP_ENV} --single-branch 2>&1']
+#  args: ['clone', 'git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@${GITHUB_REPO} ${LOCAL_REPO} --branch ${GCP_ENV} --single-branch 2>&1']
+  args: ['clone', 'git@github.com:${GITHUB_USER}/${GITHUB_REPO} ${LOCAL_REPO} --branch ${GCP_ENV} --single-branch 2>&1']
   env:
     - 'GCP_ENV=RE7'  
     - 'GITHUB_USER=gcloud-repo'
