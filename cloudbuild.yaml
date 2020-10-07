@@ -12,13 +12,13 @@ steps:
 #  args: ['bash', '-c', 'scripts/travis/build_services.sh']
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:$COMMIT_SHA', '.' ]
+  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:$BRANCH_NAME', '.' ]
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/scc-show-service:$COMMIT_SHA']
+  args: ['push', 'gcr.io/$PROJECT_ID/scc-show-service:$BRANCH_NAME']
 # Deploy container image to GCE
 images:
-- 'gcr.io/$PROJECT_ID/showservice:$COMMIT_SHA'
+- 'gcr.io/$PROJECT_ID/showservice:$BRANCH_NAME'
 options:
  machineType: 'N1_HIGHCPU_8'
  diskSizeGb: 200
