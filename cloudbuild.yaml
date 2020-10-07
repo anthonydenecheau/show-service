@@ -43,7 +43,7 @@ steps:
 - name: gcr.io/cloud-builders/git
   id: gitclone
 #  args: ['clone', 'git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@${GITHUB_REPO} ${LOCAL_REPO} --branch ${GCP_ENV} --single-branch 2>&1']
-  args: ['clone', 'git@github.com:centrale-canine/gcp-migration.git ${LOCAL_REPO} --branch ${GCP_ENV} --single-branch 2>&1']
+  args: ['clone', 'git@github.com:centrale-canine/gcp-migration.git --recurse-submodules']
   env:
     - 'GCP_ENV=RE7'  
     - 'LOCAL_REPO=../gcp-migration'
