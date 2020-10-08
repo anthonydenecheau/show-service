@@ -8,6 +8,7 @@ export myConfigFile=./terraform/services-vars.tf
 myTagRoot=`echo ${BUILD_NAME} | sed  's/^\([a-z-]*\)[0-9-]*$/\1/g'`
 
 echo "INFO- Clone git project: ................... ${GITHUB_REPO}"
+cd /workspace
 git clone -b ${GCP_ENV} git@github.com:centrale-canine/gcp-migration
 
 echo "INFO- Update docker image tag in file: ..... ${myConfigFile}"

@@ -53,14 +53,8 @@ steps:
     chmod +x ./scripts/deploy_to_gcp.sh
     ./scripts/deploy_to_gcp.sh
   env:
-    - 'GCP_ENV=RE7'  
-    - 'LOCAL_REPO=../gcp-migration'
-    - 'GITHUB_TOKEN=$(cat github-token)'
-  env:
-    - 'GCP_ENV=RE7'  
+    - 'GCP_ENV=re7'  
     - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
-    - 'GITHUB_TOKEN=$(cat github-token)'
-    - 'LOCAL_REPO=../gcp-migration'
   volumes:
   - name: 'ssh'
     path: /root/.ssh    
