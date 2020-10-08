@@ -8,10 +8,10 @@ steps:
   id: build
   args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}', '.' ]
 # Get credentials.
-- name: gcr.io/cloud-builders/gcloud
-  id: credentials
-  entrypoint: 'bash'
-  args: [ '-c', 'gcloud secrets versions access latest --secret=github-token > github-token' ]  
+#- name: gcr.io/cloud-builders/gcloud
+#  id: credentials
+#  entrypoint: 'bash'
+#  args: [ '-c', 'gcloud secrets versions access latest --secret=github-token > github-token' ]  
 # Publish newer version.
 # "gitclone": fatal: protocol 'git clone https' is not supported
 # https://cloud.google.com/cloud-build/docs/access-private-github-repos?hl=fr
