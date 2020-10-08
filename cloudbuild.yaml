@@ -1,10 +1,10 @@
 # Package jar
 steps:
-- name: 'gcr.io/cloud-builders/mvn'
+- name: gcr.io/cloud-builders/mvn
   id: packageJar
   args: ['clean','package','-Dmaven.test.skip=true']
 # Build and tag the image.
-- name: 'gcr.io/cloud-builders/docker'
+- name: gcr.io/cloud-builders/docker
   id: buildImage
   args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}', '.' ]
   waitFor:
