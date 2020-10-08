@@ -9,8 +9,6 @@ steps:
   args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}', '.' ]
   waitFor:
     - packageJar               
-images:
-- 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}'
 # Publish newer version.
 # "gitclone": fatal: protocol 'git clone https' is not supported
 # https://cloud.google.com/cloud-build/docs/access-private-github-repos?hl=fr
@@ -63,6 +61,8 @@ steps:
     path: /root/.ssh    
   waitFor:
     - setupKey     
+images:
+- 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}'    
 options:
  machineType: 'N1_HIGHCPU_8'
  diskSizeGb: 200
