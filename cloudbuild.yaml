@@ -13,7 +13,6 @@ steps:
 # "gitclone": fatal: protocol 'git clone https' is not supported
 # https://cloud.google.com/cloud-build/docs/access-private-github-repos?hl=fr
 # Access the id_github file from Secret Manager
-steps:
 - name: gcr.io/cloud-builders/gcloud
   id: id_github
   entrypoint: 'bash'
@@ -21,6 +20,8 @@ steps:
   volumes:
   - name: 'ssh'
     path: /root/.ssh
+  waitFor:
+    - buildImage               
 # Set up git with key and domain
 - name: 'gcr.io/cloud-builders/git'
   id: setupKey
