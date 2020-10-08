@@ -4,6 +4,7 @@ export GITHUB_USER=gcloud-repo
 export GITHUB_REPO=github.com/centrale-canine/gcp-migration.git
 export LOCAL_REPO=gcp-migration
 export myConfigFile=./terraform/services-vars.tf
+export myTagRoot=scc-show-service
 
 echo "INFO- Clone git project: ................... ${GITHUB_REPO}"
 
@@ -16,12 +17,11 @@ echo "INFO- New docker image tag: ................ ${BUILD_NAME}"
 #echo "INFO- fs: .................................. $(ls -la)"
 
 cd ${LOCAL_REPO}
-
-myTagRoot=`echo ${BUILD_NAME} | sed  's/^\([a-z-]*\)[0-9-]*$/\1/g'`
-echo "INFO- myTagRoot: .................................. ${myTagRoot}"
+#myTagRoot=`echo ${BUILD_NAME} | sed  's/^\([a-z-]*\)[0-9-]*$/\1/g'`
+#echo "INFO- myTagRoot: .................................. ${myTagRoot}"
 
 echo "INFO- Original myConfigFile: .................................. $(cat ./terraform/services-vars.tf)"
-sed -i "s/${myTagRoot}[0-9-]*/${SHORT_SHA}/" ${myConfigFile} 2>&1
+sed -i "s/${myTagRoot}[a-z0-9-]*/${BUILD_NAME}/" ${myConfigFile} 2>&1
 echo "INFO- Final myConfigFile: .................................. $(cat ./terraform/services-vars.tf)"
 
 echo "INFO- Push file: ......... ${myConfigFile}"
