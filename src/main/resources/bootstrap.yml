@@ -7,15 +7,15 @@ spring:
   cloud:
     gcp:
       sql:
-        databaseName: ${sm://projects/905137618880/secrets/show-service-db_username}  
-        instance-connection-name: ${sm://projects/905137618880/secrets/show-service-db_instance_name}
+        databaseName: DBNAME
+        instance-connection-name: DBINSTANCE
   datasource:
-    url: jdbc:postgresql://google/${sm://projects/905137618880/secrets/show-service-db_username}?socketFactory=com.google.cloud.sql.postgres.SocketFactory&cloudSqlInstance=${sm://projects/905137618880/secrets/show-service-db_instance_name}&useSSL=false
-    username: ${sm://projects/905137618880/secrets/show-service-db_username}  
-    password: ${sm://projects/905137618880/secrets/show-service-db_password}  
+    url: jdbc:postgresql://google/${spring.cloud.gcp.sql.databaseName}?socketFactory=com.google.cloud.sql.postgres.SocketFactory&cloudSqlInstance=${spring.cloud.gcp.sql.instance-connection-name}&useSSL=false
+    username: DBUSER
+    password: DBPWD
   hystrix:
     command:
-      showservice:
+      lofselectclubservice:
         execution:
           isolation:
             thread:
@@ -26,6 +26,7 @@ showservice:
     ReadTimeout: 7000
   authenticationKey: SECURE_KEY 
   authenticationValue: SECURE_NAME
+
 
 ---
 spring:
