@@ -6,7 +6,7 @@ steps:
 # Build and tag the image.
 - name: 'gcr.io/cloud-builders/docker'
   id: build
-  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}', '.' ]
+  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}', '.' ]
 # Get credentials.
 - name: gcr.io/cloud-builders/gcloud
   id: credentials
@@ -54,14 +54,14 @@ steps:
     ./scripts/deploy_to_gcp.sh
   env:
     - 'GCP_ENV=re7'  
-    - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
+    - 'TAG_NAME=scc-show-service-${SHORT_SHA}'
   volumes:
   - name: 'ssh'
     path: /root/.ssh    
   waitFor:
     - setupKey     
 images:
-- 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}'
+- 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}'
 options:
  machineType: 'N1_HIGHCPU_8'
  diskSizeGb: 200

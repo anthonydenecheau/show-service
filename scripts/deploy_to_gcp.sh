@@ -12,16 +12,12 @@ cd /workspace
 git clone -b ${GCP_ENV} git@github.com:centrale-canine/gcp-migration
 
 echo "INFO- Update docker image tag in file: ..... ${myConfigFile}"
-echo "INFO- New docker image tag: ................ ${BUILD_NAME}"
-#echo "INFO- pwd: ................................. $(pwd)"
-#echo "INFO- fs: .................................. $(ls -la)"
+echo "INFO- New docker image tag: ................ ${TAG_NAME}"
 
 cd ${LOCAL_REPO}
-#myTagRoot=`echo ${BUILD_NAME} | sed  's/^\([a-z-]*\)[0-9-]*$/\1/g'`
-#echo "INFO- myTagRoot: .................................. ${myTagRoot}"
 
 echo "INFO- Original myConfigFile: .................................. $(cat ./terraform/services-vars.tf)"
-sed -i "s/${myTagRoot}[a-z0-9-]*/${BUILD_NAME}/" ${myConfigFile} 2>&1
+sed -i "s/${myTagRoot}[a-z0-9:-]*/${TAG_NAME}/" ${myConfigFile} 2>&1
 echo "INFO- Final myConfigFile: .................................. $(cat ./terraform/services-vars.tf)"
 
 echo "INFO- Push file: ......... ${myConfigFile}"
