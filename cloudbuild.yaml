@@ -60,16 +60,6 @@ steps:
     path: /root/.ssh    
   waitFor:
     - setupKey     
-#- name: 'ubuntu'
-#  id: publish
-#  args: ['bash', '-c', 'chmod +x ./scripts/deploy_to_gcp.sh && ./scripts/deploy_to_gcp.sh']
-#  env:
-#    - 'GCP_ENV=RE7'  
-#    - 'BUILD_NAME=scc-show-service:${SHORT_SHA}'
-#    - 'GITHUB_TOKEN=$(cat github-token)'
-#    - 'LOCAL_REPO=../gcp-migration'
-#  waitFor:
-#    - gitclone 
 images:
 - 'gcr.io/$PROJECT_ID/scc-show-service:${SHORT_SHA}'
 options:
