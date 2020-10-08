@@ -23,8 +23,8 @@ echo "INFO- Final myConfigFile: .................................. $(cat ./terra
 echo "INFO- Push file: ......... ${myConfigFile}"
 echo "INFO- ... to branch: ..... ${GCP_ENV}"
 
-git config user.email "anthony.denecheau@centrale-canine.fr"
-git config user.name "${GITHUB_USER}"
-git add .
-git commit -m":rocket: :wrench: :arrow_up: changed application version from GCP BUILD" .
-git push
+#git config user.email "anthony.denecheau@centrale-canine.fr"
+#git config user.name "${GITHUB_USER}"
+#git add .
+#git commit -m":rocket: :wrench: :arrow_up: changed application version from GCP BUILD" .
+#git push
