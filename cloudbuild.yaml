@@ -1,14 +1,14 @@
 # Package jar
 steps:
 - name: 'gcr.io/cloud-builders/mvn'
-  id: package
+  id: packageJar
   args: ['clean','package','-Dmaven.test.skip=true']
 # Build and tag the image.
 - name: 'gcr.io/cloud-builders/docker'
-  id: build
+  id: buildImage
   args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}', '.' ]
   waitFor:
-    - package               
+    - packageJar               
 images:
 - 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}'
 # Publish newer version.
@@ -24,7 +24,7 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
   waitFor:
-    - build             
+    - buildImage             
 # Set up git with key and domain
 - name: 'gcr.io/cloud-builders/git'
   id: setupKey
