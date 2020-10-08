@@ -21,8 +21,6 @@ steps:
   volumes:
   - name: 'ssh'
     path: /root/.ssh
-  waitFor:
-    - buildImage             
 # Set up git with key and domain
 - name: 'gcr.io/cloud-builders/git'
   id: setupKey
