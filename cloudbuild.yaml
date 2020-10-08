@@ -6,7 +6,7 @@ steps:
 # Build and tag the image.
 - name: gcr.io/cloud-builders/docker
   id: buildImage
-  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}', '.' ]
+  args: [ 'build', '-f', 'src/main/docker/Dockerfile', '-t', 'eu.gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}', '.' ]
   waitFor:
     - packageJar               
 # Publish newer version.
@@ -61,7 +61,7 @@ steps:
   waitFor:
     - setupKey     
 images:
-- 'gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}'    
+- 'eu.gcr.io/$PROJECT_ID/scc-show-service:scc-show-service-${SHORT_SHA}'    
 options:
  machineType: 'N1_HIGHCPU_8'
  diskSizeGb: 200
