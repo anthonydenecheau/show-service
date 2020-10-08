@@ -15,10 +15,7 @@ echo "INFO- Update docker image tag in file: ..... ${myConfigFile}"
 echo "INFO- New docker image tag: ................ ${TAG_NAME}"
 
 cd ${LOCAL_REPO}
-
-echo "INFO- Original myConfigFile: .................................. $(cat ./terraform/services-vars.tf)"
 sed -i "s/${myTagRoot}[a-z0-9:-]*/${TAG_NAME}/" ${myConfigFile} 2>&1
-echo "INFO- Final myConfigFile: .................................. $(cat ./terraform/services-vars.tf)"
 
 echo "INFO- Push file: ......... ${myConfigFile}"
 echo "INFO- ... to branch: ..... ${GCP_ENV}"
