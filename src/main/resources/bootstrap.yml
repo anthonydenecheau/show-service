@@ -15,7 +15,7 @@ spring:
     password: DBPWD
   hystrix:
     command:
-      lofselectclubservice:
+      showservice:
         execution:
           isolation:
             thread:
